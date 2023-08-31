@@ -3,7 +3,7 @@ import * as crypto from "crypto";
 import dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 
-import db, { IUser } from "../Models/user";
+import db, { IUser, sqlUserSchema } from "../Models/user";
 import { setToken } from "../services/auth";
 // interface
 
@@ -25,6 +25,13 @@ export async function handleSignup(req: Request<{}, {}, IUser>, res: Response) {
 
   try {
     const user = await db.find({ email: data.email });
+
+    // get user from sql db
+    const sqlUser = await sqlUserSchema.findOne({
+      where: { email: data.email },
+    });
+    console.log(sqlUser);
+    
     if (!user.length) {
       const hash = crypto
         .createHmac("sha256", secretKye)
@@ -36,6 +43,17 @@ export async function handleSignup(req: Request<{}, {}, IUser>, res: Response) {
         password: hash,
         profileImage: file?.filename,
       });
+
+      // sql create
+      sqlUserSchema
+        .create({
+          userName: data.userName,
+          password: hash,
+          profileImage: file?.filename,
+          email: data.email,
+        })
+        .then(() => console.log("user added"))
+        .catch((err) => console.log(err));
       return res.status(200).json({
         message: "user Added",
         data: insert,
@@ -68,7 +86,7 @@ export async function handleLogin(req: Request<{}, {}, ILogin>, res: Response) {
         return res.status(200).send({
           message: "Login Successfully ",
           data: data,
-          token:token
+          token: token,
         });
       } else {
         return res.status(400).send({
