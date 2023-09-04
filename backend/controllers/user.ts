@@ -12,6 +12,8 @@ export interface ILogin {
   password: string;
 }
 
+
+
 const secretKye: string =
   process.env.secretKye || "dkjfowie6ddwu@e3k25jaJHOI****dfweu*fehjh1!jahdi";
 console.log(secretKye);
@@ -19,6 +21,7 @@ console.log(secretKye);
 export async function handleSignup(req: Request<{}, {}, IUser>, res: Response) {
   const data = req.body;
   const file = req.file;
+  // console.log(file)
 
   if (!Object.keys(data).length)
     return res.status(400).send({ message: "Data is required" });
@@ -31,7 +34,7 @@ export async function handleSignup(req: Request<{}, {}, IUser>, res: Response) {
       where: { email: data.email },
     });
     console.log(sqlUser);
-    
+
     if (!user.length) {
       const hash = crypto
         .createHmac("sha256", secretKye)
@@ -73,7 +76,7 @@ export async function handleLogin(req: Request<{}, {}, ILogin>, res: Response) {
   try {
     const data = await db.find({ email: req.body.email });
     if (!Object.keys(data).length)
-      return res.send({ message: "data is required" });
+      return res.status(400).send({ message: "Check your Credentials" });
     if (data) {
       const password = crypto
         .createHmac("sha256", secretKye)
@@ -85,7 +88,7 @@ export async function handleLogin(req: Request<{}, {}, ILogin>, res: Response) {
         res.cookie("uid", token);
         return res.status(200).send({
           message: "Login Successfully ",
-          data: data,
+          profileImage: data[0].profileImage,
           token: token,
         });
       } else {

@@ -10,6 +10,7 @@ const DBClient = new MongoClient(dbURL);
 const storage = new GridFsStorage({
   url: dbURL,
   file: (req, file) => {
+    console.log(file)
     if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
       return {
         bucketName: "images",

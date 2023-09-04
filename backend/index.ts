@@ -4,6 +4,7 @@ import { mongooseConnector, sqlServerConnector } from "./utils/db/dbConnect";
 import userRouters from "./routes/userRoutes";
 import blogRouters from "./routes/blogRouters";
 import authMiddleware from "./middlewares/authmiddleware";
+import cors from "cors"
 
 // import fileRoute from "./routes/FileRoute"
 
@@ -14,6 +15,7 @@ const port = process.env.PORT || 8000;
 mongooseConnector(process.env.DB || "mongodb://127.0.0.1:27017/Blogger");
 sqlServerConnector() 
 
+app.use(cors())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 

@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
 
-interface IBlog {
+export interface IBlog {
   title: string;
-  subTitle: string;
+  subTitle?: string;
   content: string;
+  image:string
 }
 
 const blog = new mongoose.Schema<IBlog>({
@@ -18,6 +19,9 @@ const blog = new mongoose.Schema<IBlog>({
     type: String,
     required: true,
   },
+  image:{
+    type:String
+  }
 });
 
 const Blogs = mongoose.model("blogs", blog);
