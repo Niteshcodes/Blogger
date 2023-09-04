@@ -1,15 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 export interface Output {
-  message: string;
+  message: string | undefined;
 }
 
 export interface signUpCredentials {
   userName: string;
   email: string;
   password: string;
-  image: File;
+  image?: File | undefined;
 }
 
 export const SignUp = createAsyncThunk<Output, signUpCredentials>(
@@ -21,7 +21,7 @@ export const SignUp = createAsyncThunk<Output, signUpCredentials>(
       formData.append("userName", userName);
       formData.append("email", email);
       formData.append("password", password);
-      formData.append("image", image);
+      if (image) formData.append("image", image);
 
       const response = await axios.post(
         "http://localhost:8000/api/signup",
@@ -35,7 +35,9 @@ export const SignUp = createAsyncThunk<Output, signUpCredentials>(
 
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error.message);
+      }
     }
   }
 );

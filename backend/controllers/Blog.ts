@@ -34,7 +34,7 @@ export const handleGetOne = async (req: Request, res: Response) => {
         .status(200)
         .send({ message: "Blog is successfully found", data: blog });
     } else {
-      return res.status(200).send({ message: "No Blog found" });
+      return res.status(400).send({ message: "No Blog found" });
     }
   } catch (error) {
     res.send({ message: error });

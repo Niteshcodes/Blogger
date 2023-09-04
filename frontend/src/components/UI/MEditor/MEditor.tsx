@@ -1,13 +1,21 @@
+import  { useState } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
-import React, { useState } from "react";
-import { Editor, EditorTextChangeEvent } from "primereact/editor";
-
-export default function MEditor() {
-    const [text, setText] = useState<string>('');
-
-    return (
-        <div className="card">
-            <Editor value={text} onTextChange={(e: EditorTextChangeEvent) => setText(e.htmlValue || "")} style={{ height: '320px' }} />
-        </div>
-    )
+interface IEditor {
+  getValue: CallableFunction;
 }
+
+function MEditor(props: IEditor) {
+  const [value, setValue] = useState('');
+
+  
+  const handleChange = (content: string) => {
+    setValue(content);
+    props.getValue(content);
+  };
+
+  return <ReactQuill theme="snow" value={value} onChange={handleChange} />;
+}
+
+export default MEditor;

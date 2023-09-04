@@ -32,7 +32,7 @@ export default function MUpload(props: IUpload) {
                             {...field}
                             name={props.name}
                             accept="image/*"
-                            maxFileSize={1000000}
+                            // maxFileSize={1000000}
                             chooseLabel={props.label}
                             className={props.className}
                             onSelect={handleFileSelect}

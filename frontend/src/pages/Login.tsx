@@ -35,6 +35,8 @@ const Login: React.FC = () => {
 
 
     }
+    
+
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => handleLogin(data);
     return (
@@ -50,7 +52,7 @@ const Login: React.FC = () => {
                     <MButton className='text-black w-full ' label='Login' type='submit' />
                 </form>
                 <div>
-                    <h2 className='text-sm my-7'>New here <Link to={'/signup'} className='text-blue-600 cursor-pointer' >Signup</Link></h2>
+                    <h2 className='text-sm my-7'>New here <Link to={'/user/signup'} className='text-blue-600 cursor-pointer' >Signup</Link></h2>
                 </div>
             </div>
         </div>

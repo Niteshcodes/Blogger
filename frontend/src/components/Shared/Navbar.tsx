@@ -19,10 +19,8 @@ export default function Navbar() {
     },
     {
       label: 'Write',
-      // icon: 'pi pi-fw pi-pencil',
       visible: true,
       command: () => {
-        localStorage.clear()
         navigate('/write')
       }
 
@@ -38,7 +36,7 @@ export default function Navbar() {
           icon: 'pi pi-fw pi-user-plus',
           command: () => {
             localStorage.clear()
-            navigate('/login')
+            navigate('/user/login')
           }
 
         },
@@ -57,7 +55,7 @@ export default function Navbar() {
 
   return (
 
-    <Menubar model={items} start={start} className='h-[10vh] px-6 flex justify-between items-center ' />
+    <Menubar model={items} start={start} className='h-[10vh] px-6 flex justify-between items-center  list-none' />
 
   )
 }

@@ -13,27 +13,24 @@ export type Inputs = {
     email: string,
     password: string,
     reEnterPassword: string,
-    image: string
+    image?: string
 }
 
 const Signup: React.FC = () => {
-    const [file, setFile] = useState()
+    const [file, setFile] = useState<File>()
     const { handleSubmit, control } = useForm<FieldValues>();
 
     const handleSignup = async (data: FieldValues) => {
-        console.log(data, file);
+
         try {
-            const response = await store.dispatch(SignUp({ ...data, image: file }))
-            if (response.error) {
-                alert(response?.payload?.Message)
-            }
+            const response = await store.dispatch(SignUp({ userName: data.userName, email: data.email, password: data.password, image: file }))
+            console.log(response)
         } catch (error) {
             return error
         }
     }
 
     const handleFileSelect = (file: File) => {
-        // Handle the selected file here, for example, you can log its properties:
         console.log("Selected File:", file);
         setFile(file)
 

@@ -1,29 +1,19 @@
-// import React from 'react'
-import Navbar from './Navbar'
-import { Route, Routes } from 'react-router-dom'
-import Home from '../../pages/Home'
-import Blog from '../../pages/Blog'
-import WriteBlog from '../../pages/WriteBlog'
-// import Signup from '../../pages/Signup'
+import { Navigate, Outlet } from "react-router-dom";
+import Navbar from "./Navbar";
 
-export default function RouteManager() {
-    return (
-        <div className='relative'>
+const PrivateComponent = () => {
+    const token = localStorage.getItem("auth");
+    
+    return token ? (
+        <>
             <div className='h-[10vh] sticky top-0 z-50'>
                 <Navbar />
             </div>
-            <div className="mb-auto w-full">
-                <div className="h-full items-center justify-center">
-                    {
-                        <Routes >
+            <Outlet />
+        </>
+    ) : (
+        <Navigate to="/user/login" />
+    );
+};
 
-                            <Route path='/' element={<Home />} />
-                            <Route path='/blog/*' element={<Blog />} />
-                            <Route path='/write/*' element={<WriteBlog />} />
-                        </Routes>
-                    }
-                </div>
-            </div>
-        </div >
-    )
-}
+export default PrivateComponent;

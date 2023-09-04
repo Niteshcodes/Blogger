@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { IPagePayload } from "../pages/Home";
+import { Output } from "./signup";
 interface payloadData {
   token: string;
   pagination: IPagePayload;
@@ -29,7 +30,9 @@ export const fetchBlogs = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      return error;
+      if (error instanceof AxiosError) {
+        throw error.response?.data;
+      }
     }
   }
 );
@@ -49,7 +52,9 @@ export const fetchOneBlog = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      return error;
+      if (error instanceof AxiosError) {
+        throw error.response?.data;
+      }
     }
   }
 );
@@ -68,7 +73,48 @@ export const deleteBlog = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      return error;
+      if (error instanceof AxiosError) {
+        throw error.response?.data;
+      }
+    }
+  }
+);
+
+interface ICreateBlog {
+  title: string;
+  subTitle: string;
+  content: string;
+  image?: File;
+  token: string;
+}
+
+export const createBlog = createAsyncThunk<unknown, ICreateBlog>(
+  "createBlog",
+  async ({ title, content, image, token, subTitle }) => {
+    try {
+      const formData = new FormData();
+
+      formData.append("title", title);
+      formData.append("subTitle", subTitle);
+      formData.append("content", content);
+      image ? formData.append("image", image) : "";
+
+      const response = await axios.post<unknown, AxiosResponse<Output>>(
+        "http://localhost:8000/blogs/create",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: token,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        throw error.response?.data;
+      }
     }
   }
 );

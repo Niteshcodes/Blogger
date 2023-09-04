@@ -4,10 +4,13 @@ import store, { useAppSelector } from '../store/store';
 import { deleteBlog, fetchBlogs, fetchOneBlog } from '../services/Blogs';
 import { useNavigate } from 'react-router-dom';
 import MPaginator from '../components/UI/MPaginator/MPaginator';
+// import NotFound from '../components/Shared/404page';
+import { Icon } from '@iconify/react/dist/iconify.js';
 
 interface Blog {
-    _id: string
+    _id: string;
     title: string
+    subTitle: string
     content: string
     image: string
 }
@@ -84,21 +87,29 @@ const Home: React.FC = () => {
     }
 
     return (
-        <>
-            {/* {console.log(blogs.data.data)} */}
-            <div className="grid grid-cols-4 max-lg:grid-cols-3 max-sm:grid-cols-2 gap-10 p-5">
-                {blogs.data.data && blogs?.data?.data.map((item: Blog) => (
-                    <div id={item._id} key={item._id}>
-                        <Card description={item.content} image={item.image} title={item?.title} id={item._id} onClick={handleCardClick} handleEdit={handleEdit} handleDelete={handleDelete} />
-                    </div>
-                ))}
+        (blogs.data.data.length > 0) ?
+            <>
 
+                {/* {console.log(blogs.data.data)} */}
+                <div className="grid grid-cols-4 max-lg:grid-cols-3 max-sm:grid-cols-2 gap-10 p-5">
+                    {blogs.data.data && blogs?.data?.data.map((item: Blog) => (
+                        <div id={item._id} key={item._id}>
+                            <Card description={item.subTitle} image={item.image} title={item?.title} id={item._id} onClick={handleCardClick} handleEdit={handleEdit} handleDelete={handleDelete} />
+                        </div>
+                    ))}
+
+                </div >
+                {/* {console.log(blogs)} */}
+                <div >
+                    <MPaginator perPage={10} rows={5} totalRecords={blogs.data.totalRecords} callback={handlePageChange} />
+                </div >
+
+
+            </>
+            : <div className='text-center flex justify-center items-center flex-col'>
+                <Icon  icon="fluent:warning-12-regular" className='text-[30vw] text-yellow-500' />
+                <h2 className='font-bold text-[2rem] font-sans'>No Data Found</h2>
             </div>
-            {/* {console.log(blogs)} */}
-            {blogs.data.data && <div>
-                <MPaginator perPage={10} rows={5} totalRecords={blogs.data.totalRecords} callback={handlePageChange} />
-            </div>}
-        </>
     );
 };
 

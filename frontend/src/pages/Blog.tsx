@@ -3,6 +3,15 @@
 import store, { useAppSelector } from "../store/store"
 import { useEffect, useState } from "react";
 import { fetchOneBlog } from "../services/Blogs";
+import '../App.css'
+
+const customStyle = `
+ #blogDisplay ol,#blogDisplay ul,#blogDisplay menu {
+        list-style: revert !important;
+       margin: revert !important;
+    padding: revert !important;
+       }
+`
 
 interface IBlogData {
     _id: string,
@@ -44,15 +53,22 @@ export default function Blog() {
             {blogData &&
                 <div className="w-[80vw] h-[100vh] m-auto my-2 ">
                     <div className={`w-full  flex justify-center items-center my-5 overflow-hidden `}   >
-                        <img src={blogData.image} width={"30%"}  />
+                        <img src={blogData.image} width={"30%"} />
                     </div>
-                    <div className="px-5 bg-[#18181818]">
+                    <div className=" bg-[#18181818] p-6">
                         <h2 className="text-[2rem] py-3 ">{blogData.title}</h2>
-                        <div dangerouslySetInnerHTML={{ __html: blogData.content }}>
+                        <div id="blogDisplay">
+                            <style>
+                                {customStyle}
+                            </style>
+                            <div className="" dangerouslySetInnerHTML={{ __html: blogData.content }} >
 
+                            </div>
                         </div>
+
                     </div>
                 </div >
+
             }
         </>
     )
