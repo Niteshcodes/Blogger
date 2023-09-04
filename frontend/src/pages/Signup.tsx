@@ -53,7 +53,7 @@ const Signup: React.FC = () => {
                     <MButton className='text-black w-full col-span-2 ' label='Signup' type='submit' />
                 </form>
                 <div>
-                    <h2 className='text-sm my-7'>Already have an Account? <Link to={'/login'} className='text-blue-600 cursor-pointer' >login</Link></h2>
+                    <h2 className='text-sm my-7'>Already have an Account? <Link to={'/user/login'} className='text-blue-600 cursor-pointer' >login</Link></h2>
                 </div>
             </div>
         </div>
