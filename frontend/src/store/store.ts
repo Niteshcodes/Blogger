@@ -5,6 +5,7 @@ import BlogsSlice from "./Slices/BlogsSlice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import SignupSlice from "./Slices/SignupSlice";
 import paginationSlice from "./Slices/paginationSlice";
+import filterSlice from "./Slices/filterSlice";
 // const root = combineReducers({
 //   auth: AuthSlice,
 //   blog: BlogsSlice,
@@ -14,7 +15,8 @@ const store = configureStore({
     auth: AuthSlice,
     blog: BlogsSlice,
     signup: SignupSlice,
-    pagination:paginationSlice
+    pagination: paginationSlice,
+    filter: filterSlice,
   },
 });
 

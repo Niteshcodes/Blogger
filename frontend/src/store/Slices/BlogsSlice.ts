@@ -5,6 +5,7 @@ import {
   deleteBlog,
   fetchBlogs,
   fetchOneBlog,
+  updateBlog,
 } from "../../services/Blogs";
 
 interface IBlogData {
@@ -88,6 +89,17 @@ const blogSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(createBlog.rejected, (state, action) => {
+        state.error = action.payload as string;
+      })
+      .addCase(updateBlog.fulfilled, (state, action) => {
+        state.message = action.payload;
+        state.isLoading = false;
+        state.error = undefined;
+      })
+      .addCase(updateBlog.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateBlog.rejected, (state, action) => {
         state.error = action.payload as string;
       });
   },

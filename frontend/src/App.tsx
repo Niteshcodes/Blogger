@@ -13,6 +13,7 @@ import Home from './pages/Home';
 import Blog from './pages/Blog';
 import WriteBlog from './pages/WriteBlog';
 import NotFound from './components/Shared/404page';
+import EditBlog from './pages/EditBlog';
 
 
 const App: React.FC = () => {
@@ -24,6 +25,7 @@ const App: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/blog/*" element={<Blog />} />
           <Route path="/write/*" element={<WriteBlog />} />
+          <Route path="/edit/*" element={<EditBlog />} />
         </Route>
         <Route path="/user">
           <Route path="signup" element={<Signup />} />

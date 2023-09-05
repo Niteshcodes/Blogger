@@ -4,7 +4,8 @@ export interface IBlog {
   title: string;
   subTitle?: string;
   content: string;
-  image:string
+  image: string;
+  writtenBy: string;
 }
 
 const blog = new mongoose.Schema<IBlog>({
@@ -19,9 +20,12 @@ const blog = new mongoose.Schema<IBlog>({
     type: String,
     required: true,
   },
-  image:{
-    type:String
-  }
+  image: {
+    type: String,
+  },
+  writtenBy: {
+    type: String,
+  },
 });
 
 const Blogs = mongoose.model("blogs", blog);

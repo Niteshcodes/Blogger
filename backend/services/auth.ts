@@ -20,3 +20,11 @@ export const getToken = (token: string) => {
     return false;
   }
 };
+
+export const tokenValues = (token: string) => {
+  try {
+    return jwt.decode(token);
+  } catch (error) {
+    return false;
+  }
+};

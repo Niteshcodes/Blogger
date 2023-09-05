@@ -6,7 +6,7 @@ import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import MUpload from '../components/UI/MUpload/MUpload';
 import store from '../store/store';
 import { SignUp } from '../services/signup';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export type Inputs = {
     userName: string,
@@ -19,12 +19,15 @@ export type Inputs = {
 const Signup: React.FC = () => {
     const [file, setFile] = useState<File>()
     const { handleSubmit, control } = useForm<FieldValues>();
+    const navigate=useNavigate()
 
     const handleSignup = async (data: FieldValues) => {
 
         try {
             const response = await store.dispatch(SignUp({ userName: data.userName, email: data.email, password: data.password, image: file }))
             console.log(response)
+            alert(response.payload.message)
+            navigate("/user/login")
         } catch (error) {
             return error
         }
@@ -49,7 +52,7 @@ const Signup: React.FC = () => {
                     <MInput name='email' label='Email ID' placeholder='Enter your Email' type='email' control={control} />
                     <MInput name='password' label='Password' placeholder='Enter your Password' type='password' control={control} />
                     <MInput name='reEnterPassword' label='Re Enter Password' placeholder='Re Enter your Password' type='password' control={control} />
-                    <MUpload name='image' label='Upload Profile' className='w-full col-span-2' control={control} onFileSelect={handleFileSelect} />
+                    <MUpload name='image' label='Upload Profile' className='w-full col-span-2'  onFileSelect={handleFileSelect} />
                     <MButton className='text-black w-full col-span-2 ' label='Signup' type='submit' />
                 </form>
                 <div>

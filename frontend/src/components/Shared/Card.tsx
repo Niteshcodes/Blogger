@@ -28,7 +28,7 @@ export default function Card(props: ICard) {
             props.handleEdit(props.id)
         }
     }
-    
+
     return (
         <div className="shadow-md hover:cursor-pointer hover:scale-105 rounded-lg">
             <div onClick={handleOnClick}>

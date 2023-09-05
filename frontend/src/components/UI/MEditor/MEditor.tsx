@@ -4,6 +4,7 @@ import 'react-quill/dist/quill.snow.css';
 
 interface IEditor {
   getValue: CallableFunction;
+  defaultValue?:string | undefined
 }
 
 function MEditor(props: IEditor) {
@@ -15,7 +16,7 @@ function MEditor(props: IEditor) {
     props.getValue(content);
   };
 
-  return <ReactQuill theme="snow" value={value} onChange={handleChange} />;
+  return <ReactQuill theme="snow"  onChange={handleChange} defaultValue={props.defaultValue}/>;
 }
 
 export default MEditor;

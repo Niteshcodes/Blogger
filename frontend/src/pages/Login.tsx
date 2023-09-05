@@ -20,7 +20,6 @@ const Login: React.FC = () => {
 
 
     const handleLogin = async (data: FieldValues) => {
-        console.log(data)
         const response = await store.dispatch(login({ email: data.email, password: data.password }))
         if (!response) return;
         if (response.meta.requestStatus === "fulfilled") {
@@ -35,7 +34,7 @@ const Login: React.FC = () => {
 
 
     }
-    
+
 
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => handleLogin(data);

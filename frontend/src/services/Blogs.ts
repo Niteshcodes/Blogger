@@ -52,6 +52,7 @@ export const fetchOneBlog = createAsyncThunk(
 
       return response.data;
     } catch (error) {
+      console.log(error);
       if (error instanceof AxiosError) {
         throw error.response?.data;
       }
@@ -87,6 +88,14 @@ interface ICreateBlog {
   image?: File;
   token: string;
 }
+interface IUpdateBlog {
+  id: string;
+  title?: string;
+  subTitle?: string;
+  content?: string;
+  image?: File;
+  token: string;
+}
 
 export const createBlog = createAsyncThunk<unknown, ICreateBlog>(
   "createBlog",
@@ -97,10 +106,41 @@ export const createBlog = createAsyncThunk<unknown, ICreateBlog>(
       formData.append("title", title);
       formData.append("subTitle", subTitle);
       formData.append("content", content);
-      image ? formData.append("image", image) : "";
+      if (image) formData.append("image", image);
 
       const response = await axios.post<unknown, AxiosResponse<Output>>(
         "http://localhost:8000/blogs/create",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: token,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        throw error.response?.data;
+      }
+    }
+  }
+);
+export const updateBlog = createAsyncThunk<unknown, IUpdateBlog>(
+  "updateBlog",
+  async ({ title, content, image, token, subTitle, id }) => {
+    try {
+      const formData = new FormData();
+      if (!id) return alert("No Blog Found, Kindly refresh you page");
+      formData.append("id", id);
+      if (title) formData.append("title", title);
+      if (subTitle) formData.append("subTitle", subTitle);
+      if (content) formData.append("content", content);
+      if (image) formData.append("image", image);
+
+      const response = await axios.put<unknown, AxiosResponse<Output>>(
+        "http://localhost:8000/blogs/update",
         formData,
         {
           headers: {
