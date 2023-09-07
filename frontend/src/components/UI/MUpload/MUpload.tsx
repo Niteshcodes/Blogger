@@ -1,7 +1,4 @@
-
-import { FileUpload } from 'primereact/fileupload';
-import { Control, Controller, FieldValues } from "react-hook-form";
-
+import { FileUpload, FileUploadFilesEvent } from 'primereact/fileupload';
 interface IUpload {
     name: string,
     className?: string
@@ -13,7 +10,7 @@ interface IUpload {
 export default function MUpload(props: IUpload) {
 
 
-    const handleFileSelect = (event) => {
+    const handleFileSelect = (event: FileUploadFilesEvent) => {
         const selectedFile = event.files[0];
         props.onFileSelect(selectedFile);
     };

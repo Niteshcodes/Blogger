@@ -15,6 +15,22 @@ interface IBlogDelete {
   id: string;
   token: string;
 }
+
+interface ICreateBlog {
+  title: string;
+  subTitle: string;
+  content: string;
+  image?: File;
+  token: string;
+}
+interface IUpdateBlog {
+  id: string;
+  title?: string;
+  subTitle?: string;
+  content?: string;
+  image?: File;
+  token: string;
+}
 export const fetchBlogs = createAsyncThunk(
   "fetchBlogs",
   async (data: payloadData) => {
@@ -80,22 +96,6 @@ export const deleteBlog = createAsyncThunk(
     }
   }
 );
-
-interface ICreateBlog {
-  title: string;
-  subTitle: string;
-  content: string;
-  image?: File;
-  token: string;
-}
-interface IUpdateBlog {
-  id: string;
-  title?: string;
-  subTitle?: string;
-  content?: string;
-  image?: File;
-  token: string;
-}
 
 export const createBlog = createAsyncThunk<unknown, ICreateBlog>(
   "createBlog",

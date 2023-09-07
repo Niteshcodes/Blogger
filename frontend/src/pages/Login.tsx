@@ -21,6 +21,7 @@ const Login: React.FC = () => {
 
     const handleLogin = async (data: FieldValues) => {
         const response = await store.dispatch(login({ email: data.email, password: data.password }))
+        
         if (!response) return;
         if (response.meta.requestStatus === "fulfilled") {
             localStorage.setItem("auth", response?.payload?.token)
@@ -29,7 +30,8 @@ const Login: React.FC = () => {
 
         }
         else {
-            alert(response?.payload?.message)
+            // console.log(response)
+            alert(response?.error.message)
         }
 
 

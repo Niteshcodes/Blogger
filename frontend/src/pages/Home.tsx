@@ -55,8 +55,7 @@ const Home: React.FC = () => {
         else {
             try {
                 const payload = { id: itemId, token: token }
-                const response = await store.dispatch(fetchOneBlog(payload))
-                // console.log(response)
+                const response = await store.dispatch(fetchOneBlog(payload))                
 
                 if (response) {
                     return response

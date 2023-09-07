@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 export interface User {
   profileImage: string;
   token: string;
@@ -9,17 +9,19 @@ export interface LoginCredentials {
   password: string;
 }
 
-export const login = createAsyncThunk<User, LoginCredentials>(
+export const login = createAsyncThunk<User[], LoginCredentials>(
   "login",
-  async ({ email, password }, { rejectWithValue }) => {
+  async (payload: LoginCredentials) => {
     try {
-      const response = await axios.post("http://localhost:8000/api/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "http://localhost:8000/api/login",
+        payload
+      );
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      if (error instanceof AxiosError) {        
+        throw error.response?.data;
+      }
     }
   }
 );
